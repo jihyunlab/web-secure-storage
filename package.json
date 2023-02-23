@@ -7,7 +7,11 @@
   "homepage": "https://github.com/jihyunlab/web-secure-storage",
   "repository": "https://github.com/jihyunlab/web-secure-storage",
   "bugs": "http://github.com/jihyunlab/web-secure-storage/issues",
-  "scripts": {},
+  "scripts": {
+    "build": "tsc --build",
+    "start": "tsc-watch --onSuccess \"node dist/index.js\"",
+    "clean": "tsc --build --clean"
+  },
   "keywords": [
     "jihyunlab",
     "typescript",
@@ -17,6 +21,8 @@
     "session-storage"
   ],
   "devDependencies": {
+    "typescript": "^4.9.5",
+    "tsc-watch": "^6.0.0",
     "@jihyunlab/eslint-config": "^1.0.2",
     "@jihyunlab/prettier-config": "^1.0.3"
   }
