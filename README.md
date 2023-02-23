@@ -1,2 +1,2 @@
 # web-secure-storage
-JihyunLab web secure storage.
+JihyunLab Web secure storage.

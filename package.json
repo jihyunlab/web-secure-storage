@@ -1,0 +1,23 @@
+{
+  "name": "@jihyunlab/web-secure-storage",
+  "version": "1.0.0",
+  "description": "JihyunLab Web secure storage.",
+  "license": "MIT",
+  "author": "JihyunLab <jihyunlab@gmail.com> (https://github.com/jihyunlab)",
+  "homepage": "https://github.com/jihyunlab/web-secure-storage",
+  "repository": "https://github.com/jihyunlab/web-secure-storage",
+  "bugs": "http://github.com/jihyunlab/web-secure-storage/issues",
+  "scripts": {},
+  "keywords": [
+    "jihyunlab",
+    "typescript",
+    "web-storage",
+    "secure-storage",
+    "local-storage",
+    "session-storage"
+  ],
+  "devDependencies": {
+    "@jihyunlab/eslint-config": "^1.0.2",
+    "@jihyunlab/prettier-config": "^1.0.3"
+  }
+}
