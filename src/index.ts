@@ -1,48 +1,52 @@
-import { Crypto, CRYPTO } from './cryptos/crypto';
-import { CryptoFactory } from './cryptos/crypto.factory';
-import { Storage, STORAGE } from './storages/storage';
-import { StorageFactory } from './storages/storage.factory';
+export const STORAGE = {
+  LOCAL: 'LOCAL',
+  SESSION: 'SESSION',
+} as const;
+export type STORAGE = (typeof STORAGE)[keyof typeof STORAGE];
 
-export const SecureStorageFactory = (
-  storage: STORAGE,
-  salt: string,
-  crypto?: CRYPTO,
-  key?: string,
-  rounds?: number
-): SecureStorage => {
-  return new SecureStorage(StorageFactory(storage), CryptoFactory(crypto || CRYPTO.AES_128_CBC, salt, key, rounds));
-};
-
-export class SecureStorage {
-  private storage;
-  private crypto;
-
-  constructor(storage: Storage, crypto: Crypto) {
-    this.storage = storage;
-    this.crypto = crypto;
-  }
-
-  clear = () => {
-    this.storage.clear();
-  };
-
-  getItem = (key: string): string | null => {
-    const value = this.storage.getItem(key);
-
-    if (!value) {
-      return value;
+function SecureStorage(storage: string) {
+  const getStorage = (storage: string): Storage => {
+    switch (storage) {
+      case STORAGE.LOCAL:
+        return localStorage;
+      case STORAGE.SESSION:
+        return sessionStorage;
+      default:
+        return localStorage;
     }
-
-    return this.crypto.decrypt(value);
   };
 
-  setItem = (key: string, value: string) => {
-    this.storage.setItem(key, this.crypto.encrypt(value));
-  };
-
-  removeItem = (key: string) => {
-    this.storage.removeItem(key);
+  return {
+    getItem: (key: string): string | null => {
+      return getStorage(storage).getItem(key);
+    },
+    setItem: (key: string, value: string) => {
+      getStorage(storage).setItem(key, value);
+    },
   };
 }
 
-export { CRYPTO, STORAGE };
+// export const user = () => {
+//   const name = (): number => {
+//     // const value = 2;
+//     console.log('###########################################');
+//     return 3;
+//   };
+
+//   const email = (): number => {
+//     // const value = 2;
+//     console.log('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
+//     return 3;
+//   };
+
+//   // const test = (): number => {
+//   //   // const value = 2;
+//   //   console.log('$$$$$$$$$$$$$$$$$$$$$$$$');
+//   //   return 3;
+//   // };
+
+//   return { name: name, email: email };
+// };
+
+// const a = user();
+// a.name();
