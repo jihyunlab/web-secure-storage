@@ -23,11 +23,13 @@
     "session-storage"
   ],
   "dependencies": {
-    "@types/node": "^18.14.1"
+    "@types/node": "^18.14.1",
+    "crypto-js": "^4.1.1"
   },
   "devDependencies": {
     "@jihyunlab/eslint-config": "^1.0.4",
     "@jihyunlab/prettier-config": "^1.0.3",
+    "@types/crypto-js": "^4.1.1",
     "tsc-watch": "^6.0.0",
     "typescript": "^4.9.5"
   }
