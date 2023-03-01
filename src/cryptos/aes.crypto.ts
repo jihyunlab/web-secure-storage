@@ -7,7 +7,7 @@ export const AesCrypto: Crypto = {
 
     const hashedKey = CryptoJS.PBKDF2(key, salt, {
       keySize: 512 / 32,
-      iterations: rounds ? rounds : 10000,
+      iterations: rounds ? rounds : 100,
     });
 
     const iv = CryptoJS.lib.WordArray.random(128 / 8);
@@ -31,7 +31,7 @@ export const AesCrypto: Crypto = {
 
     const hashedKey = CryptoJS.PBKDF2(key, salt, {
       keySize: 512 / 32,
-      iterations: rounds ? rounds : 10000,
+      iterations: rounds ? rounds : 100,
     });
 
     const decrypted = CryptoJS.AES.decrypt(encryptedValue, hashedKey, {

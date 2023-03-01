@@ -33,7 +33,7 @@ yarn add @jihyunlab/web-secure-storage
 ```react
 import { SecureStorage, STORAGE, CRYPTO } from '@jihyunlab/web-secure-storage'
 
-const storage = SecureStorage(STORAGE.LOCAL, CRYPTO.AES, 'your secret key', 100000 /* The number of iterations for PBKDF2 */);
+const storage = SecureStorage(STORAGE.LOCAL, CRYPTO.AES, 'your secret key', 100 /* The number of iterations for PBKDF2 */);
 
 storage.clear();
 storage.setItem('item', 'value');
