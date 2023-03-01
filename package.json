@@ -23,7 +23,6 @@
     "session-storage"
   ],
   "dependencies": {
-    "@types/node": "^18.14.1",
     "crypto-js": "^4.1.1"
   },
   "devDependencies": {
