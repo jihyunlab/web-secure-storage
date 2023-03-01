@@ -28,7 +28,7 @@ function SecureStorage(storage: string) {
 
     const iv = CryptoJS.lib.WordArray.random(128 / 8);
 
-    const encryptedValue = CryptoJS.AES.encrypt(value, hashedKey, {
+    const encryptedValue = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value), hashedKey, {
       iv: iv,
       padding: CryptoJS.pad.Pkcs7,
       mode: CryptoJS.mode.CBC,
@@ -41,9 +41,9 @@ function SecureStorage(storage: string) {
   const decrypt = (key: string, value: string, rounds?: number) => {
     const encrypted = CryptoJS.enc.Utf8.stringify(CryptoJS.enc.Base64.parse(value));
 
-    const salt = CryptoJS.enc.Hex.parse(encrypted.substring(0, 16 * 2));
-    const iv = CryptoJS.enc.Hex.parse(encrypted.substring(16 * 2, 16 * 2));
-    const encryptedValue = encrypted.substring(32 * 2);
+    const salt = CryptoJS.enc.Hex.parse(encrypted.substring(0, 32));
+    const iv = CryptoJS.enc.Hex.parse(encrypted.substring(32, 64));
+    const encryptedValue = encrypted.substring(64);
 
     const hashedKey = CryptoJS.PBKDF2(key, salt, {
       keySize: 512 / 32,
@@ -56,7 +56,7 @@ function SecureStorage(storage: string) {
       mode: CryptoJS.mode.CBC,
     });
 
-    return decrypted;
+    return CryptoJS.enc.Utf8.stringify(decrypted);
   };
 
   return {
