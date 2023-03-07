@@ -1,7 +1,7 @@
 import { Crypto } from '../crypto';
 import CryptoJS from 'crypto-js';
 
-export const AesCrypto: Crypto = {
+export const TripleDESCrypto: Crypto = {
   encrypt: (key: string, value: string, rounds?: number) => {
     const salt = CryptoJS.lib.WordArray.random(128 / 8);
 
@@ -12,7 +12,7 @@ export const AesCrypto: Crypto = {
 
     const iv = CryptoJS.lib.WordArray.random(128 / 8);
 
-    const encryptedValue = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value), hashedKey, {
+    const encryptedValue = CryptoJS.TripleDES.encrypt(CryptoJS.enc.Utf8.parse(value), hashedKey, {
       iv: iv,
       padding: CryptoJS.pad.Pkcs7,
       mode: CryptoJS.mode.CBC,
@@ -34,7 +34,7 @@ export const AesCrypto: Crypto = {
       iterations: rounds ? rounds : 128,
     });
 
-    const decrypted = CryptoJS.AES.decrypt(encryptedValue, hashedKey, {
+    const decrypted = CryptoJS.TripleDES.decrypt(encryptedValue, hashedKey, {
       iv: iv,
       padding: CryptoJS.pad.Pkcs7,
       mode: CryptoJS.mode.CBC,

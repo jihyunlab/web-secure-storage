@@ -8,7 +8,9 @@ Web secure storage can be used by web applications such as React.
 
 Web secure storage encrypts values ​​and stores them in local or session storage. When getting stored values, they are decrypts back to their original values.
 
-Web secure storage provides encryption and decryption with AES(Advanced Encryption Standard) and PBKDF2(Password-Based Key Derivation Function 2). Also, because a random iv(Initialization Vector) value is used for encryption, the value cannot be easily guessed.
+Web Secure Storage provides encryption with AES(Advanced Encryption Standard) 256 CBC and Triple-DES 256 CBC.
+
+Additionally, PBKDF2(Password-Based Key Derivation Function 2) and PKCS#7 are used for encryption. Also, since a random iv (Initialization Vector) value is used for encryption, the value cannot be easily inferred.
 
 ## Requirements
 
@@ -33,7 +35,7 @@ yarn add @jihyunlab/web-secure-storage
 ```react
 import { SecureStorage, STORAGE, CRYPTO } from '@jihyunlab/web-secure-storage'
 
-const storage = SecureStorage(STORAGE.LOCAL, CRYPTO.AES, 'your secret key', 100 /* The number of iterations for PBKDF2 */);
+const storage = SecureStorage(STORAGE.LOCAL, CRYPTO.AES, 'your secret key', 128 /* The number of iterations for PBKDF2 */);
 
 storage.clear();
 storage.setItem('item', 'value');
