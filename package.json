@@ -1,10 +1,10 @@
 {
   "name": "@jihyunlab/web-secure-storage",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "JihyunLab Web secure storage.",
   "license": "MIT",
-  "author": "JihyunLab <jihyunlab@gmail.com> (https://github.com/jihyunlab)",
-  "homepage": "https://github.com/jihyunlab/web-secure-storage",
+  "author": "JihyunLab <info@jihyunlab.com> (https://jihyunlab.com)",
+  "homepage": "https://jihyunlab.com/library/npm/web-secure-storage",
   "repository": "https://github.com/jihyunlab/web-secure-storage",
   "bugs": "http://github.com/jihyunlab/web-secure-storage/issues",
   "module": "./dist/index.js",
@@ -16,11 +16,12 @@
   },
   "keywords": [
     "jihyunlab",
-    "typescript",
+    "web-secure-storage",
     "web-storage",
     "secure-storage",
     "local-storage",
-    "session-storage"
+    "session-storage",
+    "typescript"
   ],
   "dependencies": {
     "crypto-js": "^4.1.1"

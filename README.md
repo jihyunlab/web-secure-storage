@@ -21,7 +21,7 @@ Node.js
 ### 1) Setup regular JihyunLab Web secure storage
 
 ```bash
-npm install @jihyunlab/web-secure-storage
+npm i @jihyunlab/web-secure-storage
 ```
 
 or
@@ -42,3 +42,11 @@ storage.setItem('item', 'value');
 storage.getItem('item');
 storage.removeItem('item');
 ```
+
+## Credits
+
+Authored and maintained by JihyunLab <<info@jihyunlab.com>>
+
+## License
+
+Open source [licensed as MIT](https://github.com/jihyunlab/web-secure-storage/blob/master/LICENSE).
