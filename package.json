@@ -6,7 +6,7 @@
   "author": "JihyunLab <info@jihyunlab.com> (https://jihyunlab.com)",
   "homepage": "https://jihyunlab.com/library/npm/web-secure-storage",
   "repository": "https://github.com/jihyunlab/web-secure-storage",
-  "bugs": "http://github.com/jihyunlab/web-secure-storage/issues",
+  "bugs": "https://github.com/jihyunlab/web-secure-storage/issues",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
