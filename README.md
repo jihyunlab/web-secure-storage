@@ -18,7 +18,7 @@ Node.js
 
 ## Setup
 
-### 1) Setup regular JihyunLab Web secure storage
+### Setup regular JihyunLab Web secure storage
 
 ```bash
 npm i @jihyunlab/web-secure-storage

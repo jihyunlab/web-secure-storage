@@ -6,6 +6,7 @@ export function SecureStorage(storage: STORAGE, crypto: CRYPTO, secret: string, 
     clear: () => {
       getStorage(storage).clear();
     },
+
     getItem: (key: string) => {
       const value = getStorage(storage).getItem(key);
 
@@ -15,17 +16,15 @@ export function SecureStorage(storage: STORAGE, crypto: CRYPTO, secret: string, 
 
       return getCrypto(crypto).decrypt(secret, value, rounds);
     },
-    setItem: (key: string, value: string) => {
-      if (!value) {
-        return;
-      }
 
-      if (value.length === 0) {
+    setItem: (key: string, value: string) => {
+      if (!value || value.length === 0) {
         getStorage(storage).setItem(key, value);
       }
 
       getStorage(storage).setItem(key, getCrypto(crypto).encrypt(secret, value, rounds));
     },
+
     removeItem: (key: string) => {
       getStorage(storage).removeItem(key);
     },
