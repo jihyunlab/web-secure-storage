@@ -1,5 +1,11 @@
+# Common
+.DS_Store
+
+# Typescript
 /node_modules
 /dist
 /coverage
-.DS_Store
-yarn.lock
+
+# Rust
+/target
+/pkg

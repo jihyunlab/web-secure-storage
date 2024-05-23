@@ -1,8 +1,10 @@
 *
 
-!/dist/src/**/*
+!/dist/**/*
 
 !/package.json
 
-!/LICENCE
+!/LICENCE-APACHE
+!/LICENCE-MIT
+
 !/README.md
