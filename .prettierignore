@@ -9,3 +9,6 @@
 # Rust
 /target
 /pkg
+
+# Wasm
+/src/wasm/lib

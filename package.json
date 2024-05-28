@@ -10,9 +10,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build:wasm": "wasm-pack build --target web --out-dir src/wasm",
-    "build": "wasm-pack build --target web --out-dir dist/wasm && tsc --build",
-    "start": "wasm-pack build --target web --out-dir dist/wasm && tsc --build && node dist/index.js",
+    "build:wasm": "wasm-pack build --target web --out-dir src/wasm/lib",
+    "build": "wasm-pack build --target web --out-dir dist/wasm/lib && tsc --build",
+    "start": "wasm-pack build --target web --out-dir dist/wasm/lib && tsc --build && node dist/index.js",
     "clean": "tsc --build --clean",
     "lint": "eslint src/**/*.ts && eslint test/**/*.ts",
     "test": "jest --coverage --coverageReporters=cobertura"

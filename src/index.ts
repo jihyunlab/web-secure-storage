@@ -1,3 +1,5 @@
+import Wasm from './wasm';
+
 export function WebSecureStorage(secret: string, iterations = 128) {
   return {
     local: {
@@ -5,24 +7,41 @@ export function WebSecureStorage(secret: string, iterations = 128) {
         localStorage.clear();
       },
 
-      getItem: (key: string) => {
+      getItem: async (key: string) => {
         if (!key || key.length === 0) {
           throw new Error('key does not exist.');
         }
 
-        localStorage.getItem(key);
+        const item = localStorage.getItem(key);
+
+        if (!item || item.length === 0) {
+          return item;
+        }
+
+        const wasm = await Wasm.getInstance();
+        const decrypted = wasm.crypto.decrypt(item, secret, iterations);
+
+        return decrypted;
       },
 
-      setItem: (key: string, value: string) => {
+      setItem: async (key: string, item: string) => {
         if (!key || key.length === 0) {
           throw new Error('key does not exist.');
         }
 
-        if (!value || value.length === 0) {
-          throw new Error('value does not exist.');
+        if (!item) {
+          throw new Error('item does not exist.');
         }
 
-        localStorage.setItem(key, value);
+        if (item.length === 0) {
+          localStorage.setItem(key, item);
+          return;
+        }
+
+        const wasm = await Wasm.getInstance();
+        const encrypted = wasm.crypto.encrypt(item, secret, iterations);
+
+        localStorage.setItem(key, encrypted);
       },
 
       removeItem: (key: string) => {
