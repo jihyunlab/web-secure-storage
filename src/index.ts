@@ -1,7 +1,7 @@
 import Wasm from './wasm';
 import { getStorage } from './script/storage';
 
-export function WebSecureStorage(secret: string, iterations = 128) {
+export function WebSecureStorage(secret: string, options?: { salt?: string; iterations?: number }) {
   const clear = (storage: 'local' | 'session') => {
     getStorage(storage).clear();
   };
@@ -18,7 +18,7 @@ export function WebSecureStorage(secret: string, iterations = 128) {
     }
 
     const wasm = await Wasm.getInstance();
-    const decrypted = wasm.crypto.decrypt(item, secret, iterations);
+    const decrypted = wasm.crypto.decrypt(item, secret, options);
 
     return decrypted;
   };
@@ -38,7 +38,7 @@ export function WebSecureStorage(secret: string, iterations = 128) {
     }
 
     const wasm = await Wasm.getInstance();
-    const encrypted = wasm.crypto.encrypt(item, secret, iterations);
+    const encrypted = wasm.crypto.encrypt(item, secret, options);
 
     getStorage(storage).setItem(key, encrypted);
   };

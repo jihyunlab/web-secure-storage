@@ -1,4 +1,4 @@
-import init from './lib';
+import init, { encrypt, decrypt } from './lib';
 
 class Wasm {
   private static instance: Wasm;
@@ -18,12 +18,34 @@ class Wasm {
   }
 
   public crypto = {
-    encrypt(text: string, secret: string, iterations: number) {
-      return '';
+    encrypt(text: string, secret: string, options?: { salt?: string; iterations?: number }) {
+      let salt = '';
+      let iterations = 128;
+
+      if (options && options.salt) {
+        salt = options.salt;
+      }
+
+      if (options && options.iterations !== undefined && options.iterations !== null && options.iterations > 0) {
+        iterations = options.iterations;
+      }
+
+      return encrypt(text, secret, salt, iterations);
     },
 
-    decrypt(text: string, secret: string, iterations: number) {
-      return '';
+    decrypt(text: string, secret: string, options?: { salt?: string; iterations?: number }) {
+      let salt = '';
+      let iterations = 128;
+
+      if (options && options.salt) {
+        salt = options.salt;
+      }
+
+      if (options && options.iterations !== undefined && options.iterations !== null && options.iterations > 0) {
+        iterations = options.iterations;
+      }
+
+      return decrypt(text, secret, salt, iterations);
     },
   };
 }
