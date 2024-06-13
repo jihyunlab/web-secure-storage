@@ -1,5 +1,5 @@
-import Wasm from './wasm';
-import { getStorage } from './script/storage';
+import Wasm from './wasm/index.wasm';
+import { getStorage } from './ts/storages/index.storage';
 
 export function WebSecureStorage(secret: string, options?: { salt?: string; iterations?: number }) {
   const clear = (storage: 'local' | 'session') => {

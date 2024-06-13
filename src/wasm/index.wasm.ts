@@ -1,4 +1,4 @@
-import init, { encrypt, decrypt } from './lib';
+import init, { encrypt, decrypt } from './lib/wasm';
 
 class Wasm {
   private static instance: Wasm;
