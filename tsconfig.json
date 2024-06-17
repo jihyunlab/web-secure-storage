@@ -6,9 +6,9 @@
     "allowJs": true,
     "declaration": true,
     "esModuleInterop": true,
-    "outDir": "dist",
-    // "sourceMap": true
+    // "sourceMap": true,
+    "outDir": "dist"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "exclude": ["node_modules", "dist", "jest.config.js"]
 }

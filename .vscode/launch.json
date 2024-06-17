@@ -9,5 +9,15 @@
       "runtimeExecutable": "npm",
       "skipFiles": ["<node_internals>/**"]
     },
+    {
+      "name": "Test",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": ["test"],
+      "runtimeExecutable": "npm",
+      "skipFiles": ["<node_internals>/**"],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    }
   ]
 }
