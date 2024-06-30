@@ -1,0 +1,16 @@
+[package]
+name = "wasm"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+path = "wasm/src/lib.rs"
+
+[dependencies]
+getrandom = { version = "0.2", features = ["js"] }
+aes-gcm = "0.10.3"
+pbkdf2 = "0.12.2"
+sha2 = "0.10.8"
+wasm-bindgen = "0.2.92"
+hex = "0.4.3"

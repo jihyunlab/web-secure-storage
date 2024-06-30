@@ -1,5 +1,8 @@
 /node_modules
+/build
 /dist
 /coverage
 .DS_Store
-yarn.lock
+/target
+/pkg
+/src/wasm/lib
