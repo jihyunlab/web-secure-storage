@@ -2,8 +2,9 @@ import Wasm from '../../../wasm/index.wasm';
 import { Cipher, CipherOptions } from '../interfaces/cipher.interface';
 
 export class WasmCipher implements Cipher {
-  readonly name: string;
-  readonly options: CipherOptions;
+  private readonly name: string;
+  private readonly options: CipherOptions;
+  private key?: string;
 
   constructor(name: string, options?: CipherOptions) {
     this.name = name;
@@ -23,25 +24,26 @@ export class WasmCipher implements Cipher {
     }
   }
 
-  public async encrypt(secret: string, text: string) {
+  public async init(password: string, length: number) {
     const wasm = await Wasm.getInstance();
 
-    return await wasm.cipher.encrypt(
-      text,
-      secret,
+    this.key = await wasm.key.pbkdf2(
+      password,
+      length,
       this.options.salt || '',
       this.options.iterations || 128
     );
   }
 
-  public async decrypt(secret: string, text: string) {
+  public async encrypt(text: string) {
     const wasm = await Wasm.getInstance();
 
-    return await wasm.cipher.decrypt(
-      text,
-      secret,
-      this.options.salt || '',
-      this.options.iterations || 128
-    );
+    return await wasm.cipher.encrypt(this.name, text, this.key || '');
+  }
+
+  public async decrypt(text: string) {
+    const wasm = await Wasm.getInstance();
+
+    return await wasm.cipher.decrypt(this.name, text, this.key || '');
   }
 }

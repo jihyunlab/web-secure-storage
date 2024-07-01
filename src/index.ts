@@ -9,22 +9,45 @@ import {
   CipherOptions,
 } from './ts/ciphers/interfaces/cipher.interface';
 
-export class WebSecureStorage {
-  readonly storage: Storage;
-  readonly cipher: Cipher;
+export const WebSecureStorage = {
+  create: async (
+    storage: STORAGE,
+    cipher: CIPHER,
+    password: string,
+    options?: CipherOptions
+  ) => {
+    const impl = new WebSecureStorageImpl();
 
-  constructor(storage: STORAGE, cipher: CIPHER, options?: CipherOptions) {
+    await impl.init(storage, cipher, password, options);
+    return impl;
+  },
+};
+
+class WebSecureStorageImpl {
+  private storage?: Storage;
+  private cipher?: Cipher;
+
+  public async init(
+    storage: STORAGE,
+    cipher: CIPHER,
+    password: string,
+    options?: CipherOptions
+  ) {
     this.storage = createStorage(storage);
-    this.cipher = createCipher(cipher, options);
+    this.cipher = await createCipher(cipher, password, options);
   }
 
   public async clear() {
+    if (!this.storage) {
+      throw new Error('class not initialized.');
+    }
+
     this.storage.clear();
   }
 
-  public async getItem(secret: string, key: string) {
-    if (!secret) {
-      throw new Error('secret does not exist.');
+  public async getItem(key: string) {
+    if (!this.storage || !this.cipher) {
+      throw new Error('class not initialized.');
     }
 
     if (!key || key.length === 0) {
@@ -37,12 +60,12 @@ export class WebSecureStorage {
       return item;
     }
 
-    return await this.cipher.decrypt(secret, item);
+    return await this.cipher.decrypt(item);
   }
 
-  public async setItem(secret: string, key: string, item: string) {
-    if (!secret) {
-      throw new Error('secret does not exist.');
+  public async setItem(key: string, item: string) {
+    if (!this.storage || !this.cipher) {
+      throw new Error('class not initialized.');
     }
 
     if (!key || key.length === 0) {
@@ -58,10 +81,14 @@ export class WebSecureStorage {
       return;
     }
 
-    this.storage.setItem(key, await this.cipher.encrypt(secret, item));
+    this.storage.setItem(key, await this.cipher.encrypt(item));
   }
 
   public async removeItem(key: string) {
+    if (!this.storage) {
+      throw new Error('class not initialized.');
+    }
+
     if (!key || key.length === 0) {
       throw new Error('key does not exist.');
     }

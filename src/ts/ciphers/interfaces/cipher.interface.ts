@@ -1,6 +1,6 @@
 export interface Cipher {
-  encrypt: (secret: string, text: string) => Promise<string>;
-  decrypt: (secret: string, text: string) => Promise<string>;
+  encrypt: (text: string) => Promise<string>;
+  decrypt: (text: string) => Promise<string>;
 }
 
 export interface CipherOptions {

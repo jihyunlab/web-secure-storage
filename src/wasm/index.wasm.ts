@@ -1,4 +1,4 @@
-import init, { encrypt, decrypt } from './lib/wasm';
+import init, { encrypt, decrypt, pbkdf2 } from './lib/wasm';
 
 class Wasm {
   private static instance: Wasm;
@@ -18,13 +18,20 @@ class Wasm {
   }
 
   public cipher = {
-    encrypt(text: string, secret: string, salt: string, iterations: number) {
-      return encrypt(text, secret, salt, iterations);
+    encrypt(cipher: string, text: string, key: string) {
+      return encrypt(cipher, text, key);
     },
 
-    decrypt(text: string, secret: string, salt: string, iterations: number) {
-      return decrypt(text, secret, salt, iterations);
+    decrypt(cipher: string, text: string, key: string) {
+      return decrypt(cipher, text, key);
+    },
+  };
+
+  public key = {
+    pbkdf2(password: string, length: number, salt: string, iterations: number) {
+      return pbkdf2(password, length, salt, iterations);
     },
   };
 }
+
 export default Wasm;

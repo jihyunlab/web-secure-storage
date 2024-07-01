@@ -11,6 +11,19 @@ JihyunLab Web secure storage.
 npm i @jihyunlab/web-secure-storage
 ```
 
+## Usage
+
+```
+import { WebSecureStorage, CIPHER, STORAGE } from '@jihyunlab/web-secure-storage';
+
+const storage = await WebSecureStorage.create(STORAGE.LOCAL, CIPHER.AES_256_GCM, 'your secret key');
+
+await storage.clear();
+await storage.setItem('item', 'value');
+await storage.getItem('item');
+await storage.removeItem('item');
+```
+
 ## Credits
 
 Authored and maintained by JihyunLab <<info@jihyunlab.com>>
