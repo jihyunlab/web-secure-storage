@@ -2,7 +2,7 @@ import { Cipher, CipherOptions } from '../interfaces/cipher.interface';
 import { Key } from '../../helpers/key.helper';
 import { Buffer } from '../../helpers/buffer.helper';
 
-export class NodeCipher implements Cipher {
+export class WebCryptoCipher implements Cipher {
   private cipher = 'AES-GCM';
   private ivLength = 12;
   private key?: CryptoKey;
@@ -16,7 +16,7 @@ export class NodeCipher implements Cipher {
     ivLength: number,
     options?: CipherOptions
   ) {
-    const instance = new NodeCipher();
+    const instance = new WebCryptoCipher();
     await instance.init(cipher, length, password, ivLength, options);
 
     return instance;

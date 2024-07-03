@@ -74,7 +74,7 @@ export class WebSecureStorage {
       throw new Error('key does not exist.');
     }
 
-    if (!item) {
+    if (item === undefined || item === null) {
       throw new Error('item does not exist.');
     }
 

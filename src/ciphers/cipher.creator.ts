@@ -1,5 +1,5 @@
 import { Cipher, CipherOptions } from './interfaces/cipher.interface';
-import { NodeCipher } from './services/node-cipher.service';
+import { WebCryptoCipher } from './services/web-crypto.service';
 
 export const CIPHER = {
   AES_256_GCM: 'AES-256-GCM',
@@ -12,7 +12,7 @@ export const CipherCreator = {
 
     switch (cipher) {
       case CIPHER.AES_256_GCM:
-        instance = await NodeCipher.create(
+        instance = await WebCryptoCipher.create(
           'AES-GCM',
           256,
           password,

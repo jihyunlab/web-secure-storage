@@ -14,9 +14,17 @@ npm i @jihyunlab/web-secure-storage
 ## Usage
 
 ```
-import { WebSecureStorage, CIPHER, STORAGE } from '@jihyunlab/web-secure-storage';
+import {
+  WebSecureStorage,
+  CIPHER,
+  STORAGE,
+} from '@jihyunlab/web-secure-storage';
 
-const storage = await WebSecureStorage.create(STORAGE.LOCAL, CIPHER.AES_256_GCM, 'your secret key');
+const storage = await WebSecureStorage.create(
+  STORAGE.LOCAL,
+  CIPHER.AES_256_GCM,
+  'your secret key'
+);
 
 storage.clear();
 
