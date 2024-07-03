@@ -30,8 +30,8 @@ storage.clear();
 
 await storage.setItem('item', 'value');
 
-const item = await storage.getItem('item');
-console.log(item);
+const value = await storage.getItem('item');
+console.log(value);
 
 storage.removeItem('item');
 ```

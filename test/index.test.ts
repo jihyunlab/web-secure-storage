@@ -14,13 +14,13 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', 'value');
 
-    const item = await storage.getItem('item');
+    const value = await storage.getItem('item');
     storage.removeItem('item');
 
-    expect(item).toBe('value');
+    expect(value).toBe('value');
   });
 
-  test(`Positive: AES-256-GCM - empty item`, async () => {
+  test(`Positive: AES-256-GCM - empty value`, async () => {
     const storage = await WebSecureStorage.create(
       STORAGE.LOCAL,
       CIPHER.AES_256_GCM,
@@ -31,10 +31,10 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', '');
 
-    const item = await storage.getItem('item');
+    const value = await storage.getItem('item');
     storage.removeItem('item');
 
-    expect(item).toBe('');
+    expect(value).toBe('');
   });
 
   test(`Negative: clear() - storage does not exist.`, async () => {
