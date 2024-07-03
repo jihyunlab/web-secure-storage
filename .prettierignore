@@ -2,6 +2,3 @@
 /build
 /dist
 /coverage
-/target
-/pkg
-/src/wasm/lib

@@ -1,53 +1,51 @@
-import {
-  create as createStorage,
-  STORAGE,
-} from './ts/storages/storage.creator';
-import { create as createCipher, CIPHER } from './ts/ciphers/cipher.creator';
-import { Storage } from './ts/storages/interfaces/storage.interface';
-import {
-  Cipher,
-  CipherOptions,
-} from './ts/ciphers/interfaces/cipher.interface';
+import { Storage } from './storages/interfaces/storage.interface';
+import { StorageCreator, STORAGE } from './storages/storage.creator';
+import { Cipher, CipherOptions } from './ciphers/interfaces/cipher.interface';
+import { CIPHER, CipherCreator } from './ciphers/cipher.creator';
 
-export const WebSecureStorage = {
-  create: async (
-    storage: STORAGE,
-    cipher: CIPHER,
-    password: string,
-    options?: CipherOptions
-  ) => {
-    const impl = new WebSecureStorageImpl();
-
-    await impl.init(storage, cipher, password, options);
-    return impl;
-  },
-};
-
-class WebSecureStorageImpl {
+export class WebSecureStorage {
   private storage?: Storage;
   private cipher?: Cipher;
 
-  public async init(
+  private constructor() {}
+
+  public static async create(
     storage: STORAGE,
     cipher: CIPHER,
-    password: string,
+    secret: string,
     options?: CipherOptions
   ) {
-    this.storage = createStorage(storage);
-    this.cipher = await createCipher(cipher, password, options);
+    const instance = new WebSecureStorage();
+    await instance.init(storage, cipher, secret, options);
+
+    return instance;
   }
 
-  public async clear() {
+  private async init(
+    storage: STORAGE,
+    cipher: CIPHER,
+    secret: string,
+    options?: CipherOptions
+  ) {
+    this.storage = StorageCreator.create(storage);
+    this.cipher = await CipherCreator.create(cipher, secret, options);
+  }
+
+  public clear() {
     if (!this.storage) {
-      throw new Error('class not initialized.');
+      throw new Error('storage does not exist.');
     }
 
     this.storage.clear();
   }
 
   public async getItem(key: string) {
-    if (!this.storage || !this.cipher) {
-      throw new Error('class not initialized.');
+    if (!this.storage) {
+      throw new Error('storage does not exist.');
+    }
+
+    if (!this.cipher) {
+      throw new Error('cipher does not exist.');
     }
 
     if (!key || key.length === 0) {
@@ -64,8 +62,12 @@ class WebSecureStorageImpl {
   }
 
   public async setItem(key: string, item: string) {
-    if (!this.storage || !this.cipher) {
-      throw new Error('class not initialized.');
+    if (!this.storage) {
+      throw new Error('storage does not exist.');
+    }
+
+    if (!this.cipher) {
+      throw new Error('cipher does not exist.');
     }
 
     if (!key || key.length === 0) {
@@ -84,9 +86,9 @@ class WebSecureStorageImpl {
     this.storage.setItem(key, await this.cipher.encrypt(item));
   }
 
-  public async removeItem(key: string) {
+  public removeItem(key: string) {
     if (!this.storage) {
-      throw new Error('class not initialized.');
+      throw new Error('storage does not exist.');
     }
 
     if (!key || key.length === 0) {

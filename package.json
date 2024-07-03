@@ -2,7 +2,7 @@
   "name": "@jihyunlab/web-secure-storage",
   "version": "2.0.0",
   "description": "JihyunLab Web secure storage.",
-  "license": "(MIT OR Apache-2.0)",
+  "license": "MIT",
   "author": "JihyunLab <info@jihyunlab.com> (https://jihyunlab.com)",
   "homepage": "https://jihyunlab.com/library/npm/web-secure-storage",
   "repository": "https://github.com/jihyunlab/web-secure-storage",
@@ -10,9 +10,8 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "wasm-pack build --target web --out-dir dist/wasm/lib && tsc --build",
-    "build:wasm": "wasm-pack build --target web --out-dir src/wasm/lib",
-    "start": "wasm-pack build --target web --out-dir dist/wasm/lib && tsc --build && node dist/index.js",
+    "build": "tsc --build",
+    "start": "tsc --build && node dist/index.js",
     "clean": "tsc --build --clean",
     "lint": "eslint **/*.{ts,tsx,mts,cts}",
     "prettier": "prettier --check **/*.{ts,tsx,mts,cts}",
@@ -22,9 +21,7 @@
     "web-secure-storage",
     "web",
     "secure",
-    "storage",
-    "rust",
-    "wasm"
+    "storage"
   ],
   "devDependencies": {
     "@eslint/js": "^9.6.0",

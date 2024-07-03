@@ -10,5 +10,5 @@
     // "sourceMap": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", "dist", "build", "coverage", "target", "pkg", "src/wasm/lib"]
+  "exclude": ["node_modules", "dist", "build", "coverage"]
 }

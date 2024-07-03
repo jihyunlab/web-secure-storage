@@ -6,4 +6,5 @@ export interface Cipher {
 export interface CipherOptions {
   salt?: string;
   iterations?: number;
+  ivLength?: number;
 }

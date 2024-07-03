@@ -18,27 +18,20 @@ import { WebSecureStorage, CIPHER, STORAGE } from '@jihyunlab/web-secure-storage
 
 const storage = await WebSecureStorage.create(STORAGE.LOCAL, CIPHER.AES_256_GCM, 'your secret key');
 
-await storage.clear();
+storage.clear();
+
 await storage.setItem('item', 'value');
-await storage.getItem('item');
-await storage.removeItem('item');
+
+const item = await storage.getItem('item');
+console.log(item);
+
+storage.removeItem('item');
 ```
 
 ## Credits
 
 Authored and maintained by JihyunLab <<info@jihyunlab.com>>
 
-## Minimum Supported Rust Version
-
-Rust **1.70** or higher.
-
-Minimum supported Rust version can be changed in the future.
-
 ## License
 
-Licensed under either of:
-
- * [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
- * [MIT license](http://opensource.org/licenses/MIT)
-
-at your option.
+Open source [licensed as MIT](https://github.com/jihyunlab/web-secure-storage/blob/master/LICENSE).

@@ -1,6 +1,5 @@
 *
 !/dist/**/*
 !/package.json
-!/LICENCE-APACHE
-!/LICENCE-MIT
+!/LICENCE
 !/README.md

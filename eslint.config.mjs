@@ -5,15 +5,7 @@ import { jihyunlabEslintConfig } from '@jihyunlab/eslint-config';
 
 export default tsEslint.config(
   {
-    ignores: [
-      'node_modules',
-      'dist',
-      'build',
-      'coverage',
-      'target',
-      'pkg',
-      'src/wasm/lib',
-    ],
+    ignores: ['node_modules', 'dist', 'build', 'coverage'],
   },
   {
     languageOptions: {

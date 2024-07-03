@@ -25,14 +25,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Setup Wasm Pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
       - name: Install
         run: npm ci
-
-      - name: Build Wasm
-        run: npm run build:wasm --if-present
 
       # - name: Test
       #   run: npm run test
