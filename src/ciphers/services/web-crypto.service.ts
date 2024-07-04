@@ -80,8 +80,8 @@ export class WebCryptoCipher implements Cipher {
     }
 
     const textDecoder = new TextDecoder();
-    const iv = Buffer.toBuffer(text.substring(0, this.ivLength * 2));
-    const ciphertext = Buffer.toBuffer(text.substring(this.ivLength * 2));
+    const iv = Buffer.toUint8Array(text.substring(0, this.ivLength * 2));
+    const ciphertext = Buffer.toUint8Array(text.substring(this.ivLength * 2));
 
     if (!iv || !ciphertext) {
       throw new Error('data conversion failed.');

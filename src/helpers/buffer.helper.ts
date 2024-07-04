@@ -1,8 +1,8 @@
 export const Buffer = {
-  toBuffer(hex: string) {
+  toUint8Array(hex: string) {
     let input = hex;
 
-    if (!input) {
+    if (input === undefined || input === null) {
       return null;
     }
 
@@ -24,7 +24,7 @@ export const Buffer = {
       uint8Array[i] = parseInt(input.substring(index, index + 2), 16);
     }
 
-    return uint8Array.buffer;
+    return uint8Array;
   },
 
   toHex(buffer: ArrayBuffer) {
