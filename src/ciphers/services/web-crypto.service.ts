@@ -56,7 +56,7 @@ export class WebCryptoCipher implements Cipher {
     }
 
     const textEncoder = new TextEncoder();
-    const iv = crypto.getRandomValues(new Uint8Array(this.ivLength || 16));
+    const iv = crypto.getRandomValues(new Uint8Array(this.ivLength));
 
     const ciphertext = await crypto.subtle.encrypt(
       {

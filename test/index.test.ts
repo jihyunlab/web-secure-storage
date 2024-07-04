@@ -37,6 +37,24 @@ describe('Web secure storage', () => {
     expect(value).toBe('');
   });
 
+  test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_GCM - options`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.LOCAL,
+      CIPHER.AES_256_GCM,
+      'key',
+      { salt: 'salt', iterations: 128, ivLength: 12 }
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', 'value');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('value');
+  });
+
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_GCM`, async () => {
     const storage = await WebSecureStorage.create(
       STORAGE.SESSION,
@@ -69,6 +87,24 @@ describe('Web secure storage', () => {
     storage.removeItem('item');
 
     expect(value).toBe('');
+  });
+
+  test(`Positive: STORAGE.SESSION, CIPHER.AES_256_GCM - options`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.SESSION,
+      CIPHER.AES_256_GCM,
+      'key',
+      { salt: 'salt', iterations: 128, ivLength: 12 }
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', 'value');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('value');
   });
 
   test(`Negative: clear() - storage does not exist.`, async () => {
