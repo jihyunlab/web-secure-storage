@@ -43,7 +43,7 @@ describe('Web crypto service', () => {
     }).rejects.toThrow(Error('invalid text.'));
   });
 
-  test(`Negative: decrypt() - data conversion failed.`, async () => {
+  test(`Negative: decrypt() - iv conversion failed.`, async () => {
     const spy = jest.spyOn(Buffer as any, 'toUint8Array');
     spy.mockImplementation(() => {
       return undefined;
@@ -53,7 +53,27 @@ describe('Web crypto service', () => {
 
     expect(async () => {
       await cipher.decrypt('00000000000000000000000000000000');
-    }).rejects.toThrow(Error('data conversion failed.'));
+    }).rejects.toThrow(Error('iv conversion failed.'));
+
+    spy.mockReset();
+    spy.mockRestore();
+  });
+
+  test(`Negative: decrypt() - ciphertext conversion failed.`, async () => {
+    const spy = jest.spyOn(Buffer as any, 'toUint8Array');
+    spy
+      .mockImplementationOnce(() => {
+        return new Uint8Array(0);
+      })
+      .mockImplementationOnce(() => {
+        return undefined;
+      });
+
+    const cipher = await WebCryptoCipher.create('AES-GCM', 256, 'password', 12);
+
+    expect(async () => {
+      await cipher.decrypt('00000000000000000000000000000000');
+    }).rejects.toThrow(Error('ciphertext conversion failed.'));
 
     spy.mockReset();
     spy.mockRestore();

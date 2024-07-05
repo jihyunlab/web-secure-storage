@@ -1,8 +1,110 @@
-import { CipherCreator } from '../src/ciphers/cipher.creator';
 import { WebSecureStorage, CIPHER, STORAGE } from '../src/index';
-import { StorageCreator } from '../src/storages/storage.creator';
 
 describe('Web secure storage', () => {
+  test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.LOCAL,
+      CIPHER.AES_256_CBC,
+      'key'
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', 'value');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('value');
+  });
+
+  test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC - empty value`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.LOCAL,
+      CIPHER.AES_256_CBC,
+      'key'
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', '');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('');
+  });
+
+  test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC - options`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.LOCAL,
+      CIPHER.AES_256_CBC,
+      'key',
+      { salt: 'salt', iterations: 128, ivLength: 16 }
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', 'value');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('value');
+  });
+
+  test(`Positive: STORAGE.SESSION, CIPHER.AES_256_CBC`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.SESSION,
+      CIPHER.AES_256_CBC,
+      'key'
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', 'value');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('value');
+  });
+
+  test(`Positive: STORAGE.SESSION, CIPHER.AES_256_CBC - empty value`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.SESSION,
+      CIPHER.AES_256_CBC,
+      'key'
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', '');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('');
+  });
+
+  test(`Positive: STORAGE.SESSION, CIPHER.AES_256_CBC - options`, async () => {
+    const storage = await WebSecureStorage.create(
+      STORAGE.SESSION,
+      CIPHER.AES_256_CBC,
+      'key',
+      { salt: 'salt', iterations: 128, ivLength: 16 }
+    );
+
+    storage.clear();
+
+    await storage.setItem('item', 'value');
+
+    const value = await storage.getItem('item');
+    storage.removeItem('item');
+
+    expect(value).toBe('value');
+  });
+
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_GCM`, async () => {
     const storage = await WebSecureStorage.create(
       STORAGE.LOCAL,
@@ -94,7 +196,13 @@ describe('Web secure storage', () => {
       STORAGE.SESSION,
       CIPHER.AES_256_GCM,
       'key',
-      { salt: 'salt', iterations: 128, ivLength: 12 }
+      {
+        salt: 'salt',
+        iterations: 128,
+        ivLength: 12,
+        tagLength: 128,
+        additionalData: new Uint8Array([1, 2, 3, 4]),
+      }
     );
 
     storage.clear();
@@ -105,118 +213,6 @@ describe('Web secure storage', () => {
     storage.removeItem('item');
 
     expect(value).toBe('value');
-  });
-
-  test(`Negative: clear() - storage does not exist.`, async () => {
-    const spy = jest.spyOn(StorageCreator as any, 'create');
-    spy.mockImplementation(() => {});
-
-    const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
-
-    expect(() => {
-      storage.clear();
-    }).toThrow(Error('storage does not exist.'));
-
-    spy.mockReset();
-    spy.mockRestore();
-  });
-
-  test(`Negative: getItem() - storage does not exist.`, async () => {
-    const spy = jest.spyOn(StorageCreator as any, 'create');
-    spy.mockImplementation(() => {});
-
-    const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
-
-    expect(async () => {
-      await storage.getItem('item');
-    }).rejects.toThrow(Error('storage does not exist.'));
-
-    spy.mockReset();
-    spy.mockRestore();
-  });
-
-  test(`Negative: setItem() - storage does not exist.`, async () => {
-    const spy = jest.spyOn(StorageCreator as any, 'create');
-    spy.mockImplementation(() => {});
-
-    const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
-
-    expect(async () => {
-      await storage.setItem('item', 'value');
-    }).rejects.toThrow(Error('storage does not exist.'));
-
-    spy.mockReset();
-    spy.mockRestore();
-  });
-
-  test(`Negative: removeItem() - storage does not exist.`, async () => {
-    const spy = jest.spyOn(StorageCreator as any, 'create');
-    spy.mockImplementation(() => {});
-
-    const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
-
-    expect(() => {
-      storage.removeItem('item');
-    }).toThrow(Error('storage does not exist.'));
-
-    spy.mockReset();
-    spy.mockRestore();
-  });
-
-  test(`Negative: getItem() - cipher does not exist.`, async () => {
-    const spy = jest.spyOn(CipherCreator as any, 'create');
-    spy.mockImplementation(() => {
-      return null;
-    });
-
-    const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
-
-    expect(async () => {
-      await storage.getItem('item');
-    }).rejects.toThrow(Error('cipher does not exist.'));
-
-    spy.mockReset();
-    spy.mockRestore();
-  });
-
-  test(`Negative: setItem() - cipher does not exist.`, async () => {
-    const spy = jest.spyOn(CipherCreator as any, 'create');
-    spy.mockImplementation(() => {
-      return null;
-    });
-
-    const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
-
-    expect(async () => {
-      await storage.setItem('item', 'value');
-    }).rejects.toThrow(Error('cipher does not exist.'));
-
-    spy.mockReset();
-    spy.mockRestore();
   });
 
   test(`Negative: getItem() - key does not exist.`, async () => {

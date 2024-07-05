@@ -1,3 +1,5 @@
+const crypto = globalThis.crypto;
+
 export const Key = {
   async pbkdf2(
     cipher: string,

@@ -4,10 +4,13 @@ import { Cipher, CipherOptions } from './ciphers/interfaces/cipher.interface';
 import { CIPHER, CipherCreator } from './ciphers/cipher.creator';
 
 export class WebSecureStorage {
-  private storage?: Storage;
-  private cipher?: Cipher;
+  private readonly storage: Storage;
+  private readonly cipher: Cipher;
 
-  private constructor() {}
+  private constructor(storage: Storage, cipher: Cipher) {
+    this.storage = storage;
+    this.cipher = cipher;
+  }
 
   public static async create(
     storage: STORAGE,
@@ -15,39 +18,19 @@ export class WebSecureStorage {
     secret: string,
     options?: CipherOptions
   ) {
-    const instance = new WebSecureStorage();
-    await instance.init(storage, cipher, secret, options);
+    const instance = new WebSecureStorage(
+      StorageCreator.create(storage),
+      await CipherCreator.create(cipher, secret, options)
+    );
 
     return instance;
   }
 
-  private async init(
-    storage: STORAGE,
-    cipher: CIPHER,
-    secret: string,
-    options?: CipherOptions
-  ) {
-    this.storage = StorageCreator.create(storage);
-    this.cipher = await CipherCreator.create(cipher, secret, options);
-  }
-
   public clear() {
-    if (!this.storage) {
-      throw new Error('storage does not exist.');
-    }
-
     this.storage.clear();
   }
 
   public async getItem(key: string) {
-    if (!this.storage) {
-      throw new Error('storage does not exist.');
-    }
-
-    if (!this.cipher) {
-      throw new Error('cipher does not exist.');
-    }
-
     if (!key || key.length === 0) {
       throw new Error('key does not exist.');
     }
@@ -62,14 +45,6 @@ export class WebSecureStorage {
   }
 
   public async setItem(key: string, item: string) {
-    if (!this.storage) {
-      throw new Error('storage does not exist.');
-    }
-
-    if (!this.cipher) {
-      throw new Error('cipher does not exist.');
-    }
-
     if (!key || key.length === 0) {
       throw new Error('key does not exist.');
     }
@@ -87,10 +62,6 @@ export class WebSecureStorage {
   }
 
   public removeItem(key: string) {
-    if (!this.storage) {
-      throw new Error('storage does not exist.');
-    }
-
     if (!key || key.length === 0) {
       throw new Error('key does not exist.');
     }

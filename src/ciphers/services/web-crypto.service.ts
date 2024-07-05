@@ -2,52 +2,91 @@ import { Cipher, CipherOptions } from '../interfaces/cipher.interface';
 import { Key } from '../../helpers/key.helper';
 import { Buffer } from '../../helpers/buffer.helper';
 
-export class WebCryptoCipher implements Cipher {
-  private cipher = 'AES-GCM';
-  private ivLength = 12;
-  private key?: CryptoKey;
+const crypto = globalThis.crypto;
 
-  private constructor() {}
+export class WebCryptoCipher implements Cipher {
+  private readonly cipher: string;
+  private readonly ivLength: number;
+  private readonly key: CryptoKey;
+  private readonly tagLength?: number;
+  private readonly additionalData?: ArrayBuffer;
+
+  private constructor(
+    cipher: string,
+    key: CryptoKey,
+    ivLength: number,
+    tagLength?: number,
+    additionalData?: ArrayBuffer
+  ) {
+    this.cipher = cipher;
+    this.key = key;
+    this.ivLength = ivLength;
+    this.tagLength = tagLength;
+    this.additionalData = additionalData;
+  }
 
   public static async create(
     cipher: string,
     length: number,
     password: string,
     ivLength: number,
+    tagLength?: number,
+    additionalData?: ArrayBuffer,
     options?: CipherOptions
   ) {
-    const instance = new WebCryptoCipher();
-    await instance.init(cipher, length, password, ivLength, options);
+    let salt = '';
+    let iterations = 128;
+
+    if (options && options.salt) {
+      salt = options.salt;
+    }
+
+    if (
+      options &&
+      options.iterations !== undefined &&
+      options.iterations !== null
+    ) {
+      iterations = options.iterations;
+    }
+
+    const key = await Key.pbkdf2(cipher, length, password, salt, iterations);
+
+    const instance = new WebCryptoCipher(
+      cipher,
+      key,
+      ivLength,
+      tagLength,
+      additionalData
+    );
 
     return instance;
   }
 
-  public async init(
-    cipher: string,
-    length: number,
-    password: string,
-    ivLength: number,
-    options?: CipherOptions
+  private params(
+    name: string,
+    iv: ArrayBuffer,
+    tagLength?: number,
+    additionalData?: ArrayBuffer
   ) {
-    this.cipher = cipher;
-    this.key = await Key.pbkdf2(
-      cipher,
-      length,
-      password,
-      options?.salt || '',
-      options?.iterations || 128
-    );
+    const params: {
+      name: string;
+      iv: ArrayBuffer;
+      tagLength?: number;
+      additionalData?: ArrayBuffer;
+    } = {
+      name: name,
+      iv: iv,
+    };
 
-    if (
-      options &&
-      options.ivLength !== undefined &&
-      options.ivLength !== null &&
-      options.ivLength > 0
-    ) {
-      this.ivLength = options.ivLength;
-    } else {
-      this.ivLength = ivLength;
+    if (tagLength !== undefined && tagLength !== null) {
+      params['tagLength'] = tagLength;
     }
+
+    if (additionalData !== undefined && additionalData !== null) {
+      params['additionalData'] = additionalData;
+    }
+
+    return params;
   }
 
   public async encrypt(text: string) {
@@ -59,10 +98,7 @@ export class WebCryptoCipher implements Cipher {
     const iv = crypto.getRandomValues(new Uint8Array(this.ivLength));
 
     const ciphertext = await crypto.subtle.encrypt(
-      {
-        name: this.cipher,
-        iv: iv,
-      },
+      this.params(this.cipher, iv, this.tagLength, this.additionalData),
       this.key,
       textEncoder.encode(text)
     );
@@ -83,15 +119,16 @@ export class WebCryptoCipher implements Cipher {
     const iv = Buffer.toUint8Array(text.substring(0, this.ivLength * 2));
     const ciphertext = Buffer.toUint8Array(text.substring(this.ivLength * 2));
 
-    if (!iv || !ciphertext) {
-      throw new Error('data conversion failed.');
+    if (!iv) {
+      throw new Error('iv conversion failed.');
+    }
+
+    if (!ciphertext) {
+      throw new Error('ciphertext conversion failed.');
     }
 
     const plaintext = await crypto.subtle.decrypt(
-      {
-        name: this.cipher,
-        iv: iv,
-      },
+      this.params(this.cipher, iv, this.tagLength, this.additionalData),
       this.key,
       ciphertext
     );
