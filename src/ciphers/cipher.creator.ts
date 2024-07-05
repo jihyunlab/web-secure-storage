@@ -13,7 +13,6 @@ export const CipherCreator = {
 
     let ivLength: number | undefined;
     let tagLength: number | undefined;
-    let additionalData: ArrayBuffer | undefined;
 
     if (
       options &&
@@ -31,17 +30,13 @@ export const CipherCreator = {
       tagLength = options.tagLength;
     }
 
-    if (options && options.additionalData) {
-      additionalData = options.additionalData;
-    }
-
     switch (cipher) {
       case CIPHER.AES_256_CBC:
         instance = await WebCryptoCipher.create(
           'AES-CBC',
           256,
           password,
-          ivLength !== undefined ? ivLength : 16,
+          ivLength || 16,
           undefined,
           undefined,
           options
@@ -52,9 +47,9 @@ export const CipherCreator = {
           'AES-GCM',
           256,
           password,
-          ivLength !== undefined ? ivLength : 12,
+          ivLength || 12,
           tagLength || 128,
-          additionalData,
+          options?.additionalData,
           options
         );
         break;

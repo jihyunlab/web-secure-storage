@@ -28,7 +28,7 @@ export const Buffer = {
   },
 
   toHex(buffer: ArrayBuffer) {
-    if (!buffer) {
+    if (buffer === undefined || buffer === null) {
       return buffer;
     }
 

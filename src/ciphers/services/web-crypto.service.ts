@@ -82,7 +82,7 @@ export class WebCryptoCipher implements Cipher {
       params['tagLength'] = tagLength;
     }
 
-    if (additionalData !== undefined && additionalData !== null) {
+    if (additionalData) {
       params['additionalData'] = additionalData;
     }
 
