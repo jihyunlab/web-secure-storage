@@ -5,7 +5,9 @@
 
 @jihyunlab/web-secure-storage can be used by web applications such as React.
 
-@jihyunlab/web-secure-storage encrypts values ​​and stores them in local or session storage. When getting stored values, they are decrypts back to their original values. The encryption function is implemented with [Web Crypto API](https://nodejs.org/api/webcrypto.html) in Node.js and provides encryption for AES 256 CBC and AES 256 GCM.
+@jihyunlab/web-secure-storage encrypts values ​​and stores them in local or session storage. When getting stored values, they are decrypts back to their original values.
+
+The encryption function is implemented with [Web Crypto API](https://nodejs.org/api/webcrypto.html) in Node.js and provides encryption for AES 256 CBC and AES 256 GCM.
 
 ## Installation
 
