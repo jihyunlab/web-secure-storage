@@ -1,7 +1,7 @@
-import { Storage } from './storages/interfaces/storage.interface';
-import { StorageCreator, STORAGE } from './storages/storage.creator';
-import { Cipher, CipherOptions } from './ciphers/interfaces/cipher.interface';
-import { CIPHER, CipherCreator } from './ciphers/cipher.creator';
+import { STORAGE, Storage } from './storages/interfaces/storage.interface';
+import { StorageCreator } from './storages/storage.creator';
+import { CIPHER, Crypto, Cipher, CipherOptions } from '@jihyunlab/web-crypto';
+import { WebArrayConverter } from '@jihyunlab/web-array-converter';
 
 export class WebSecureStorage {
   private readonly storage: Storage;
@@ -20,7 +20,7 @@ export class WebSecureStorage {
   ) {
     const instance = new WebSecureStorage(
       StorageCreator.create(storage),
-      await CipherCreator.create(cipher, secret, options)
+      await Crypto.createCipher(cipher, secret, options)
     );
 
     return instance;
@@ -41,7 +41,10 @@ export class WebSecureStorage {
       return item;
     }
 
-    return await this.cipher.decrypt(item);
+    const decrypted = await this.cipher.decrypt(item);
+    const converter = WebArrayConverter.from(decrypted, 'uint8array');
+
+    return converter.toString('utf8');
   }
 
   public async setItem(key: string, item: string) {
@@ -58,7 +61,10 @@ export class WebSecureStorage {
       return;
     }
 
-    this.storage.setItem(key, await this.cipher.encrypt(item));
+    const encrypted = await this.cipher.encrypt(item);
+    const converter = WebArrayConverter.from(encrypted, 'uint8array');
+
+    this.storage.setItem(key, converter.toString('hex'));
   }
 
   public removeItem(key: string) {
@@ -70,4 +76,4 @@ export class WebSecureStorage {
   }
 }
 
-export { STORAGE, CIPHER };
+export { STORAGE, CIPHER, CipherOptions };

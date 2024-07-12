@@ -1,6 +1,6 @@
 {
   "name": "@jihyunlab/web-secure-storage",
-  "version": "2.0.1",
+  "version": "2.1.0",
   "description": "JihyunLab Web secure storage.",
   "license": "MIT",
   "author": "JihyunLab <info@jihyunlab.com> (https://jihyunlab.com)",
@@ -13,20 +13,28 @@
     "build": "tsc --build",
     "start": "tsc --build && node dist/index.js",
     "clean": "tsc --build --clean",
-    "lint": "eslint **/*.{ts,tsx,mts,cts}",
-    "prettier": "prettier --check **/*.{ts,tsx,mts,cts}",
+    "lint": "eslint \"**/*.{ts,tsx,mts,cts}\"",
+    "prettier": "prettier --check \"**/*.{ts,tsx,mts,cts}\"",
     "test": "jest --coverage --coverageReporters=cobertura"
   },
   "keywords": [
     "web-secure-storage",
     "web",
     "secure",
-    "storage"
+    "crypto",
+    "cipher",
+    "storage",
+    "local-storage",
+    "session-storage"
   ],
+  "dependencies": {
+    "@jihyunlab/web-array-converter": "^1.0.4",
+    "@jihyunlab/web-crypto": "^1.0.5"
+  },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
-    "@jihyunlab/eslint-config": "^2.0.7",
-    "@jihyunlab/prettier-config": "^2.0.7",
+    "@jihyunlab/eslint-config": "^2.0.8",
+    "@jihyunlab/prettier-config": "^2.0.8",
     "@types/eslint__js": "^8.42.3",
     "@types/jest": "^29.5.12",
     "@types/node": "^20.14.9",

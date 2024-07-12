@@ -1,4 +1,4 @@
-import { WebSecureStorage, CIPHER, STORAGE } from '../src/index';
+import { STORAGE, CIPHER, WebSecureStorage } from '../src/index';
 
 describe('Web secure storage', () => {
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC`, async () => {

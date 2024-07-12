@@ -1,4 +1,5 @@
-import { STORAGE, StorageCreator } from '../../src/storages/storage.creator';
+import { STORAGE } from '../../src/storages/interfaces/storage.interface';
+import { StorageCreator } from '../../src/storages/storage.creator';
 
 describe('Storage creator', () => {
   test(`Negative: create() - storage does not exist.`, async () => {

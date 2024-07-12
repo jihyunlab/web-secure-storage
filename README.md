@@ -5,9 +5,9 @@
 
 @jihyunlab/web-secure-storage can be used by web applications such as React.
 
-@jihyunlab/web-secure-storage encrypts values ​​and stores them in local or session storage. When getting stored values, they are decrypts back to their original values.
+@jihyunlab/web-secure-storage encrypts values and stores them in local or session storage. When retrieving stored values, they are decrypted back to their original values
 
-The encryption function is implemented with [Web Crypto API](https://nodejs.org/api/webcrypto.html) in Node.js and provides encryption for AES 256 CBC and AES 256 GCM.
+The encryption function is implemented with [@jihyunlab/web-crypto](https://www.npmjs.com/package/@jihyunlab/web-crypto) and provides encryption for AES 256 CBC and AES 256 GCM.
 
 ## Installation
 
@@ -17,6 +17,8 @@ npm i @jihyunlab/web-secure-storage
 
 ## Usage
 
+You can easily encrypt data and store it in storage, then retrieve it.
+
 ```
 import {
   WebSecureStorage,
@@ -25,17 +27,17 @@ import {
 } from '@jihyunlab/web-secure-storage';
 
 const storage = await WebSecureStorage.create(
-  STORAGE.LOCAL,
-  CIPHER.AES_256_GCM,
+  STORAGE.LOCAL, /* STORAGE.LOCAL, STORAGE.SESSION */
+  CIPHER.AES_256_GCM, /* CIPHER.AES_256_CBC, CIPHER.AES_256_GCM */
   'your secret key'
 );
 
 storage.clear();
 
-await storage.setItem('item', 'value');
+await storage.setItem('item', 'jihyunlab'); // 89b1e3c2996e08d5549ecb9d625faca6db785c7d0f9ba51c3985e80ae1143263273308f5eb
 
 const value = await storage.getItem('item');
-console.log(value);
+console.log(value); // jihyunlab
 
 storage.removeItem('item');
 ```

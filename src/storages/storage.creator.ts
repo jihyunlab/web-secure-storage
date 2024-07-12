@@ -1,12 +1,6 @@
-import { Storage } from './interfaces/storage.interface';
+import { STORAGE, Storage } from './interfaces/storage.interface';
 import { LocalStorage } from './services/local-storage.service';
 import { SessionStorage } from './services/session-storage.service';
-
-export const STORAGE = {
-  LOCAL: 'LOCAL',
-  SESSION: 'SESSION',
-} as const;
-export type STORAGE = (typeof STORAGE)[keyof typeof STORAGE];
 
 export const StorageCreator = {
   create(storage: STORAGE) {
