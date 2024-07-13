@@ -1,6 +1,6 @@
 export const STORAGE = {
-  LOCAL: 'LOCAL',
-  SESSION: 'SESSION',
+  LOCAL: 'local',
+  SESSION: 'session',
 } as const;
 export type STORAGE = (typeof STORAGE)[keyof typeof STORAGE];
 

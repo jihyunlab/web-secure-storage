@@ -1,22 +1,14 @@
-import { STORAGE, CIPHER, WebSecureStorage } from '../src/index';
+import { WebSecureStorage } from '../src/index';
 
 describe('Web secure storage', () => {
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC`, async () => {
-    let storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_CBC,
-      'key'
-    );
+    let storage = await WebSecureStorage.create('local', 'aes-256-cbc', 'key');
 
     storage.clear();
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_CBC,
-      'key'
-    );
+    storage = await WebSecureStorage.create('local', 'aes-256-cbc', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -25,21 +17,13 @@ describe('Web secure storage', () => {
   });
 
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC - empty value`, async () => {
-    let storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_CBC,
-      'key'
-    );
+    let storage = await WebSecureStorage.create('local', 'aes-256-cbc', 'key');
 
     storage.clear();
 
     await storage.setItem('item', '');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_CBC,
-      'key'
-    );
+    storage = await WebSecureStorage.create('local', 'aes-256-cbc', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -48,23 +32,21 @@ describe('Web secure storage', () => {
   });
 
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_CBC - options`, async () => {
-    let storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_CBC,
-      'key',
-      { salt: 'salt', iterations: 128, ivLength: 16 }
-    );
+    let storage = await WebSecureStorage.create('local', 'aes-256-cbc', 'key', {
+      salt: 'salt',
+      iterations: 128,
+      ivLength: 16,
+    });
 
     storage.clear();
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_CBC,
-      'key',
-      { salt: 'salt', iterations: 128, ivLength: 16 }
-    );
+    storage = await WebSecureStorage.create('local', 'aes-256-cbc', 'key', {
+      salt: 'salt',
+      iterations: 128,
+      ivLength: 16,
+    });
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -74,8 +56,8 @@ describe('Web secure storage', () => {
 
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_CBC`, async () => {
     let storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_CBC,
+      'session',
+      'aes-256-cbc',
       'key'
     );
 
@@ -83,11 +65,7 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_CBC,
-      'key'
-    );
+    storage = await WebSecureStorage.create('session', 'aes-256-cbc', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -97,8 +75,8 @@ describe('Web secure storage', () => {
 
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_CBC - empty value`, async () => {
     let storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_CBC,
+      'session',
+      'aes-256-cbc',
       'key'
     );
 
@@ -106,11 +84,7 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', '');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_CBC,
-      'key'
-    );
+    storage = await WebSecureStorage.create('session', 'aes-256-cbc', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -120,8 +94,8 @@ describe('Web secure storage', () => {
 
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_CBC - options`, async () => {
     let storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_CBC,
+      'session',
+      'aes-256-cbc',
       'key',
       { salt: 'salt', iterations: 128, ivLength: 16 }
     );
@@ -130,12 +104,11 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_CBC,
-      'key',
-      { salt: 'salt', iterations: 128, ivLength: 16 }
-    );
+    storage = await WebSecureStorage.create('session', 'aes-256-cbc', 'key', {
+      salt: 'salt',
+      iterations: 128,
+      ivLength: 16,
+    });
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -144,21 +117,13 @@ describe('Web secure storage', () => {
   });
 
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_GCM`, async () => {
-    let storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
+    let storage = await WebSecureStorage.create('local', 'aes-256-gcm', 'key');
 
     storage.clear();
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
+    storage = await WebSecureStorage.create('local', 'aes-256-gcm', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -167,21 +132,13 @@ describe('Web secure storage', () => {
   });
 
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_GCM - empty value`, async () => {
-    let storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
+    let storage = await WebSecureStorage.create('local', 'aes-256-gcm', 'key');
 
     storage.clear();
 
     await storage.setItem('item', '');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
+    storage = await WebSecureStorage.create('local', 'aes-256-gcm', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -190,23 +147,21 @@ describe('Web secure storage', () => {
   });
 
   test(`Positive: STORAGE.LOCAL, CIPHER.AES_256_GCM - options`, async () => {
-    let storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key',
-      { salt: 'salt', iterations: 128, ivLength: 12 }
-    );
+    let storage = await WebSecureStorage.create('local', 'aes-256-gcm', 'key', {
+      salt: 'salt',
+      iterations: 128,
+      ivLength: 12,
+    });
 
     storage.clear();
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
-      'key',
-      { salt: 'salt', iterations: 128, ivLength: 12 }
-    );
+    storage = await WebSecureStorage.create('local', 'aes-256-gcm', 'key', {
+      salt: 'salt',
+      iterations: 128,
+      ivLength: 12,
+    });
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -216,8 +171,8 @@ describe('Web secure storage', () => {
 
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_GCM`, async () => {
     let storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_GCM,
+      'session',
+      'aes-256-gcm',
       'key'
     );
 
@@ -225,11 +180,7 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
+    storage = await WebSecureStorage.create('session', 'aes-256-gcm', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -239,8 +190,8 @@ describe('Web secure storage', () => {
 
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_GCM - empty value`, async () => {
     let storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_GCM,
+      'session',
+      'aes-256-gcm',
       'key'
     );
 
@@ -248,11 +199,7 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', '');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_GCM,
-      'key'
-    );
+    storage = await WebSecureStorage.create('session', 'aes-256-gcm', 'key');
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -262,8 +209,8 @@ describe('Web secure storage', () => {
 
   test(`Positive: STORAGE.SESSION, CIPHER.AES_256_GCM - options`, async () => {
     let storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_GCM,
+      'session',
+      'aes-256-gcm',
       'key',
       {
         salt: 'salt',
@@ -278,15 +225,10 @@ describe('Web secure storage', () => {
 
     await storage.setItem('item', 'value');
 
-    storage = await WebSecureStorage.create(
-      STORAGE.SESSION,
-      CIPHER.AES_256_GCM,
-      'key',
-      {
-        salt: 'salt',
-        additionalData: new Uint8Array([1, 2, 3, 4]),
-      }
-    );
+    storage = await WebSecureStorage.create('session', 'aes-256-gcm', 'key', {
+      salt: 'salt',
+      additionalData: new Uint8Array([1, 2, 3, 4]),
+    });
 
     const value = await storage.getItem('item');
     storage.removeItem('item');
@@ -296,8 +238,8 @@ describe('Web secure storage', () => {
 
   test(`Negative: getItem() - key does not exist.`, async () => {
     const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
+      'local',
+      'aes-256-gcm',
       'key'
     );
 
@@ -308,8 +250,8 @@ describe('Web secure storage', () => {
 
   test(`Negative: setItem() - key does not exist.`, async () => {
     const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
+      'local',
+      'aes-256-gcm',
       'key'
     );
 
@@ -320,8 +262,8 @@ describe('Web secure storage', () => {
 
   test(`Negative: removeItem() - key does not exist.`, async () => {
     const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
+      'local',
+      'aes-256-gcm',
       'key'
     );
 
@@ -332,8 +274,8 @@ describe('Web secure storage', () => {
 
   test(`Negative: setItem() - item does not exist.`, async () => {
     const storage = await WebSecureStorage.create(
-      STORAGE.LOCAL,
-      CIPHER.AES_256_GCM,
+      'local',
+      'aes-256-gcm',
       'key'
     );
 

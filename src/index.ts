@@ -1,7 +1,7 @@
-import { STORAGE, Storage } from './storages/interfaces/storage.interface';
+import { Storage } from './storages/interfaces/storage.interface';
 import { StorageCreator } from './storages/storage.creator';
-import { CIPHER, Crypto, Cipher, CipherOptions } from '@jihyunlab/web-crypto';
-import { WebArrayConverter } from './array-converter';
+import { WebBuffer } from '@jihyunlab/web-buffer';
+import { Cipher, createCipher } from '@jihyunlab/web-crypto';
 
 export class WebSecureStorage {
   private readonly storage: Storage;
@@ -13,14 +13,20 @@ export class WebSecureStorage {
   }
 
   public static async create(
-    storage: STORAGE,
-    cipher: CIPHER,
+    storage: 'local' | 'session',
+    cipher: 'aes-256-cbc' | 'aes-256-gcm',
     secret: string,
-    options?: CipherOptions
+    options?: {
+      salt?: string;
+      iterations?: number;
+      ivLength?: number;
+      tagLength?: 32 | 64 | 96 | 104 | 112 | 120 | 128;
+      additionalData?: Uint8Array;
+    }
   ) {
     const instance = new WebSecureStorage(
       StorageCreator.create(storage),
-      await Crypto.createCipher(cipher, secret, options)
+      await createCipher(cipher, secret, options)
     );
 
     return instance;
@@ -42,9 +48,9 @@ export class WebSecureStorage {
     }
 
     const decrypted = await this.cipher.decrypt(item);
-    const converter = WebArrayConverter.from(decrypted, 'uint8array');
+    const buffer = WebBuffer.from(decrypted, 'uint8array');
 
-    return converter.toString('utf8');
+    return buffer.toString('utf8');
   }
 
   public async setItem(key: string, item: string) {
@@ -62,9 +68,9 @@ export class WebSecureStorage {
     }
 
     const encrypted = await this.cipher.encrypt(item);
-    const converter = WebArrayConverter.from(encrypted, 'uint8array');
+    const buffer = WebBuffer.from(encrypted, 'uint8array');
 
-    this.storage.setItem(key, converter.toString('hex'));
+    this.storage.setItem(key, buffer.toString('hex'));
   }
 
   public removeItem(key: string) {
@@ -75,5 +81,3 @@ export class WebSecureStorage {
     return this.storage.removeItem(key);
   }
 }
-
-export { STORAGE, CIPHER, CipherOptions };

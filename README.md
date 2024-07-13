@@ -20,15 +20,11 @@ npm i @jihyunlab/web-secure-storage
 You can easily encrypt data and store it in storage, then retrieve it.
 
 ```
-import {
-  WebSecureStorage,
-  CIPHER,
-  STORAGE,
-} from '@jihyunlab/web-secure-storage';
+import { WebSecureStorage } from '@jihyunlab/web-secure-storage';
 
 const storage = await WebSecureStorage.create(
-  STORAGE.LOCAL, /* STORAGE.LOCAL, STORAGE.SESSION */
-  CIPHER.AES_256_GCM, /* CIPHER.AES_256_CBC, CIPHER.AES_256_GCM */
+  'local', /* local, session */
+  'aes-256-gcm', /* aes-256-cbc, aes-256-gcm */
   'your secret key'
 );
 
