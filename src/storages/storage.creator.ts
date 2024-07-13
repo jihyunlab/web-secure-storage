@@ -1,6 +1,6 @@
 import { STORAGE, Storage } from './interfaces/storage.interface';
-import { LocalStorage } from './services/local-storage.service';
-import { SessionStorage } from './services/session-storage.service';
+import { LocalStorage } from './local.storage';
+import { SessionStorage } from './session.storage';
 
 export const StorageCreator = {
   create(storage: STORAGE) {
