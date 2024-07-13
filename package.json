@@ -29,7 +29,7 @@
   ],
   "dependencies": {
     "@jihyunlab/web-buffer": "^1.0.0",
-    "@jihyunlab/web-crypto": "^1.0.8"
+    "@jihyunlab/web-crypto": "^1.0.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",
