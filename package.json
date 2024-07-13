@@ -1,6 +1,6 @@
 {
   "name": "@jihyunlab/web-secure-storage",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "JihyunLab Web secure storage.",
   "license": "MIT",
   "author": "JihyunLab <info@jihyunlab.com> (https://jihyunlab.com)",
@@ -28,8 +28,7 @@
     "session-storage"
   ],
   "dependencies": {
-    "@jihyunlab/web-array-converter": "^1.0.4",
-    "@jihyunlab/web-crypto": "^1.0.5"
+    "@jihyunlab/web-crypto": "^1.0.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.6.0",

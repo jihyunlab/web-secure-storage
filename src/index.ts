@@ -1,7 +1,7 @@
 import { STORAGE, Storage } from './storages/interfaces/storage.interface';
 import { StorageCreator } from './storages/storage.creator';
 import { CIPHER, Crypto, Cipher, CipherOptions } from '@jihyunlab/web-crypto';
-import { WebArrayConverter } from '@jihyunlab/web-array-converter';
+import { WebArrayConverter } from './array-converter';
 
 export class WebSecureStorage {
   private readonly storage: Storage;
