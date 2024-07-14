@@ -1,4 +1,4 @@
-import { STORAGE, Storage } from './interfaces/storage.interface';
+import { STORAGE, Storage } from '../interfaces/storage.interface';
 import { LocalStorage } from './local.storage';
 import { SessionStorage } from './session.storage';
 

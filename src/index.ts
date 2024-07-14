@@ -1,7 +1,12 @@
-import { Storage } from './storages/interfaces/storage.interface';
-import { StorageCreator } from './storages/storage.creator';
+import {
+  CIPHER,
+  Cipher,
+  CipherOptions,
+  createCipher,
+} from '@jihyunlab/web-crypto';
 import { WebBuffer } from '@jihyunlab/web-buffer';
-import { Cipher, createCipher } from '@jihyunlab/web-crypto';
+import { STORAGE, Storage } from './interfaces/storage.interface';
+import { StorageCreator } from './storages/storage.creator';
 
 export class WebSecureStorage {
   private readonly storage: Storage;
@@ -13,16 +18,10 @@ export class WebSecureStorage {
   }
 
   public static async create(
-    storage: 'local' | 'session',
-    cipher: 'aes-256-cbc' | 'aes-256-gcm',
+    storage: STORAGE,
+    cipher: CIPHER,
     secret: string,
-    options?: {
-      salt?: string;
-      iterations?: number;
-      ivLength?: number;
-      tagLength?: 32 | 64 | 96 | 104 | 112 | 120 | 128;
-      additionalData?: Uint8Array;
-    }
+    options?: CipherOptions
   ) {
     const instance = new WebSecureStorage(
       StorageCreator.create(storage),
@@ -81,3 +80,5 @@ export class WebSecureStorage {
     return this.storage.removeItem(key);
   }
 }
+
+export { CIPHER, CipherOptions, STORAGE };

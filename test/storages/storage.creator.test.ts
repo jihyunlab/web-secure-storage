@@ -1,4 +1,4 @@
-import { STORAGE } from '../../src/storages/interfaces/storage.interface';
+import { STORAGE } from '../../src/interfaces/storage.interface';
 import { StorageCreator } from '../../src/storages/storage.creator';
 
 describe('Storage creator', () => {

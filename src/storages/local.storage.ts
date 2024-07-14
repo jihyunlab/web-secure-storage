@@ -1,4 +1,4 @@
-import { Storage } from './interfaces/storage.interface';
+import { Storage } from '../interfaces/storage.interface';
 
 export class LocalStorage implements Storage {
   public clear() {

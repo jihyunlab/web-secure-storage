@@ -20,11 +20,15 @@ npm i @jihyunlab/web-secure-storage
 You can easily encrypt data and store it in storage, then retrieve it.
 
 ```
-import { WebSecureStorage } from '@jihyunlab/web-secure-storage';
+import {
+  CIPHER,
+  STORAGE,
+  WebSecureStorage,
+} from '@jihyunlab/web-secure-storage';
 
 const storage = await WebSecureStorage.create(
-  'local' /* local, session */,
-  'aes-256-gcm' /* aes-256-cbc, aes-256-gcm */,
+  STORAGE.LOCAL,
+  CIPHER.AES_256_GCM,
   'your secret key'
 );
 
@@ -36,6 +40,20 @@ const value = await storage.getItem('item');
 console.log(value); // jihyunlab
 
 storage.removeItem('item');
+```
+
+You can configure encryption options such as salt and iteration.
+
+```
+const storage = await WebSecureStorage.create(
+  STORAGE.LOCAL,
+  CIPHER.AES_256_GCM,
+  'your secret key',
+  {
+    salt: 'salt',
+    iterations: 256,
+  }
+);
 ```
 
 ## Credits
