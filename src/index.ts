@@ -81,4 +81,4 @@ export class WebSecureStorage {
   }
 }
 
-export { CIPHER, STORAGE, CipherOptions };
+export { STORAGE, CIPHER, CipherOptions };
